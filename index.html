@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>나랑 데이트 할래? 🌸</title>
+
+  <!-- 폰트는 시스템에 설치된 네모니나 / 옴니고딕을 우선 사용합니다.
+       (설치되어 있지 않으면 한글 시스템 폰트로 자동 대체) -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 떠다니는 하트 등 배경 효과가 들어갈 레이어 -->
+  <div class="floating-layer" id="floatingLayer" aria-hidden="true"></div>
+
+  <!-- 화면 중앙 카드 -->
+  <main class="card" id="card">
+
+    <!-- ===== 1단계: 첫 화면 ===== -->
+    <section class="step is-active" id="step1" data-step="1">
+      <h1 class="title">이번주에 저를 만나시겠읍니까?</h1>
+
+      <!-- 싫어 버튼이 자유롭게 도망다닐 수 있는 영역 
+       -->
+      <div class="btn-row btn-row--playground" id="playground">
+        <button class="btn btn--yes" id="yesBtn" type="button">너무 조은뎅?</button>
+        <button class="btn btn--no" id="noBtn" type="button">꺼져</button>
+      </div>
+    </section>
+
+    <!-- ===== 2단계: 수락 확인 ===== -->
+    <section class="step" id="step2" data-step="2">
+      <h1 class="title">잠시만... 좋다고??</h1>
+      <p class="subtitle">난 당연히 집에서 쉴줄 알았는뎅...</p>
+      <div class="btn-row">
+        <button class="btn btn--yes" id="reallyYesBtn" type="button">당연히 우리 다혀니를 만나야징!</button>
+      </div>
+    </section>
+
+    <!-- ===== 3단계: 날짜/시간 선택 ===== -->
+    <section class="step" id="step3" data-step="3">
+      <h1 class="title">그래서... 언제가 편해? 📅</h1>
+      <p class="subtitle">날짜랑 시간을 골라줘!</p>
+
+      <div class="field">
+        <label class="field__label" for="dateInput">📆 날짜</label>
+        <input class="input" type="date" id="dateInput" />
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="timeInput">⏰ 시간</label>
+        <input class="input" type="time" id="timeInput" />
+      </div>
+
+      <!-- 비어 있을 때 보여줄 귀여운 알림 -->
+      <p class="hint" id="step3Hint"></p>
+
+      <div class="btn-row">
+        <button class="btn btn--yes" id="dateNextBtn" type="button">이 날 좋아!</button>
+      </div>
+    </section>
+
+    <!-- ===== 4단계: 음식 선택 ===== -->
+    <section class="step" id="step4" data-step="4">
+      <h1 class="title">그래! 이 날 뭐 땡길 것 같아?</h1>
+      <p class="subtitle">난 뭐든 괜찮아 😊</p>
+
+      <div class="food-grid">
+        <button class="btn btn--food" type="button" data-food="🍕 피자">🍕<span>피자</span></button>
+        <button class="btn btn--food" type="button" data-food="🥘 떡볶이">🥘<span>떡볶이</span></button>
+        <button class="btn btn--food" type="button" data-food="🍔 햄버거">🍔<span>햄버거</span></button>
+        <button class="btn btn--food" type="button" data-food="🍗 치킨">🍗<span>치킨</span></button>
+        <button class="btn btn--food" type="button" data-food="🍚 국밥">🍚<span>국밥</span></button>
+        <button class="btn btn--food" type="button" data-food="🍜 라멘">🍜<span>라멘</span></button>
+        <button class="btn btn--food" type="button" data-food="🍲 샤브샤브">🍲<span>샤브샤브</span></button>
+      </div>
+      <div class="btn-row btn-row--random">
+        <button class="btn btn--random" id="randomFoodBtn" type="button">🎲 아무거나 골라줘!</button>
+      </div>
+    </section>
+
+    <!-- ===== 5단계: 최종 화면 ===== -->
+    <section class="step" id="step5" data-step="5">
+      <h1 class="title" id="finalTitle">싫다고 안해줘서 기뻐 🚶🏻‍♀️</h1>
+      <p class="subtitle">예쁘게 입고 갈거야 나 엄청 기대돼! 💕</p>
+
+      <!-- 요약 카드 (화면 표시용 · 원래 심플 디자인) -->
+      <div class="summary">
+        <div class="summary__head">우리의 데이트 약속 💌</div>
+        <div class="summary__row"><span>날짜</span><strong id="sumDate">-</strong></div>
+        <div class="summary__row"><span>시간</span><strong id="sumTime">-</strong></div>
+        <div class="summary__row"><span>메뉴</span><strong id="sumFood">-</strong></div>
+      </div>
+
+      <div class="btn-row btn-row--stack">
+        <button class="btn btn--share" id="shareBtn" type="button">💌 카톡 / 문자로 바로 공유하기</button>
+        <button class="btn btn--yes" id="saveBtn" type="button">♥️ 이미지 저장해서 답장 보내기 ♥️</button>
+        <button class="btn btn--ghost" id="restartBtn" type="button">처음부터 다시하기</button>
+      </div>
+      <p class="hint" id="saveHint"></p>
+    </section>
+
+  </main>
+
+  <!-- ===== 저장 전용 카드 (화면 밖 · 이 영역만 JPG로 캡처됨) ===== -->
+  <div class="capture-stage" id="captureStage" aria-hidden="true">
+    <div class="keepsake">
+      <div class="keepsake__deco keepsake__deco--tl">🌸</div>
+      <div class="keepsake__deco keepsake__deco--br">💗</div>
+
+      <div class="keepsake__badge">💌</div>
+      <div class="keepsake__title">우리의 데이트 약속</div>
+      <div class="keepsake__sub">OUR · DATE · PROMISE</div>
+
+      <div class="keepsake__list">
+        <div class="keepsake__item">
+          <span class="keepsake__ico">📅</span>
+          <span class="keepsake__key">날짜</span>
+          <strong id="capDate">-</strong>
+        </div>
+        <div class="keepsake__item">
+          <span class="keepsake__ico">⏰</span>
+          <span class="keepsake__key">시간</span>
+          <strong id="capTime">-</strong>
+        </div>
+        <div class="keepsake__item">
+          <span class="keepsake__ico">🍽️</span>
+          <span class="keepsake__key">메뉴</span>
+          <strong id="capFood">-</strong>
+        </div>
+      </div>
+
+      <div class="keepsake__foot">💕 우리 이 날 만나자 💕</div>
+    </div>
+  </div>
+
+  <!-- 요약 박스를 이미지로 저장하기 위한 라이브러리 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
