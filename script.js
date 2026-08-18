@@ -262,7 +262,7 @@ function showFinal() {
 
   // 최종 안내 타이틀 (장소와 시간 반영)
   finalTitle.textContent =
-    `서아랑 보는건 언제나 기대대❤️,\n${answers.time}에 ${answers.place} 에서 만나자! 🚶🏻‍♀️`;
+    `서아랑 보는건 언제나 기대대❤️🧡💛💚🩵💙💜\n${answers.time}에 ${answers.place} 에서 만나자!`;
 
   // 화면 요약 카드
   sumDate.textContent = formatKoreanDate(answers.date);
